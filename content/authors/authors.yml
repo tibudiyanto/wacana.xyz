@@ -1,0 +1,13 @@
+- name: Theo Budiyanto
+  bio: |
+    Graduated from UC Berkeley 2016, ex Splunk SF. 
+    Currently working on Delman and Saweria
+  avatar: ./avatars/theo.jpg
+  featured: true
+  social:
+    - name: twitter
+      url: https://twitter.com/tibudiyanto
+    - name: github
+      url: https://github.com/tibudiyanto
+    - name: instagram
+      url: https://instagram.com/tibudyanto
