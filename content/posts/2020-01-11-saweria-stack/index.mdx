@@ -1,12 +1,12 @@
 ---
-title: Saweria tech stack
+title: Saweria Stack
 author: Theo Budiyanto
 date: 2020-01-11
-hero: ./images/hero.jpg
+hero: ./images/stack.jpg
 excerpt: The boring the better
 ---
 
-# Stuff thats powering saweria.co
+# Stuff Thats Powering saweria.co
 
 _"So what does <company_name>'s stack look like?" - me at Cal career fair_
 
@@ -14,22 +14,31 @@ People—past me included—really like asking this question. While its cool to 
 If you are nice, the follow up question would be "How was it? What works?", but if you hate life and baby yoda you will ask "WHY NOT USE XXXXX". I really
 hope you all love life and baby yoda.
 
-## General Architecture
-
-Our backend is using flask and our frontend is react. Database is Postgres and we have a thin layer of Redis for pub sub. That's pretty much it.
+We are a two person shop; me and my brother. Our backend is using Flask and our frontend is React. We use Postgres and we have a thin layer of Redis for pub sub (donation alert).
+Code is hosted on GitLab complete with the CI/CD. That's pretty much it.
 
 ## Frontend
 
-We use react-static to export everything into a static HTML. For styling we used tachyon yet we are moving to Chakra-UI. While tachyons fucks, Chakra-UI plays
-much better with React. It is hosted on Netlify. Whats next? We are moving to Now and Next.js. While react-static gives us static page, Next.js will allow us to
-be both a server-rendered-app and static app in a same codebase. What to not love?
+We use react-static to export everything into a static HTML. For styling we used tachyon but we are moving to Chakra-UI. While tachyons fucks, Chakra-UI plays
+much better with React. It is hosted on Netlify.
 
 ## Backend
 
-I can hear people say, "WHY PYTHON??". No particular reason other than I am better at python than any other programming language. We are using flask with SQLAlchemy. Nothing fancy here. It is deployed on Digital Ocean $10 droplet
-and it never break 10% of CPU utilization. I am debating to downgrade to $5 but I also like to sleep good at night so \$10 it is. We use a simple docker-compose that provision
-our flask, redis, and traefik reverse proxy.
+I can hear people say, **"WHY PYTHON??"**. No particular reason other than my brother and I are better at it than any other programming language. Our python layer is very thin;
+it validates input and asks Postgres for answer. Almost all of the complex business logic is done on Postgres. It is deployed on Digital Ocean $10 droplet which 
+never breaks 10% of CPU utilization. I previously debated on downgrading it to $5 but I also like to sleep at night so it stays \$10 for now.
 
-## Other Stuff
+## Deployment
 
-We use Postgresql.
+We use a simple docker-compose that provision our flask, Redis, and traefik reverse proxy in that same machine.
+
+## Future Plans
+
+In frontend department we are moving to Now and Next.js. While react-static gives us static page, Next.js will allow us to
+be both a server-rendered-app and static app in a same codebase. It fuccs harder.
+
+For backend, we are shying away from Redis. I am trying to practice minimalism here; the less stuff we work with the better. I am trying to implement the PubSub part using
+Postgres and Postgres only.
+
+See? Nothing really fancy-it just works for us. Please do not DDoS my pretty little thing. Ping me at [@tibudiyanto](twitter.com/tibudiyanto) if you want to say hi
+or if you think there are some stuff that should be added here. ✌️
