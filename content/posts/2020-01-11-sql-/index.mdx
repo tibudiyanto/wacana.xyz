@@ -1,0 +1,35 @@
+---
+title: Saweria tech stack
+author: Theo Budiyanto
+date: 2020-01-11
+hero: ./images/hero.jpg
+excerpt: The boring the better
+---
+
+# Stuff thats powering saweria.co
+
+_"So what does <company_name>'s stack look like?" - me at Cal career fair_
+
+People—past me included—really like asking this question. While its cool to know what other technology people use, it also a sure pathway to flamewars.
+If you are nice, the follow up question would be "How was it? What works?", but if you hate life and baby yoda you will ask "WHY NOT USE XXXXX". I really
+hope you all love life and baby yoda.
+
+## General Architecture
+
+Our backend is using flask and our frontend is react. Database is Postgres and we have a thin layer of Redis for pub sub. That's pretty much it.
+
+## Frontend
+
+We use react-static to export everything into a static HTML. For styling we used tachyon yet we are moving to Chakra-UI. While tachyons fucks, Chakra-UI plays
+much better with React. It is hosted on Netlify. Whats next? We are moving to Now and Next.js. While react-static gives us static page, Next.js will allow us to
+be both a server-rendered-app and static app in a same codebase. What to not love?
+
+## Backend
+
+I can hear people say, "WHY PYTHON??". No particular reason other than I am better at python than any other programming language. We are using flask with SQLAlchemy. Nothing fancy here. It is deployed on Digital Ocean $10 droplet
+and it never break 10% of CPU utilization. I am debating to downgrade to $5 but I also like to sleep good at night so \$10 it is. We use a simple docker-compose that provision
+our flask, redis, and traefik reverse proxy.
+
+## Other Stuff
+
+We use Postgresql.
