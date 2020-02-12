@@ -1,0 +1,83 @@
+---
+title: Identitas Daring
+author: Theo Budiyanto
+date: 2020-02-01
+hero: ./images/header.jpg
+excerpt: Siapakah kamu di dunia maya?
+---
+
+Pernahkah kamu bertemu teman yang telah lama tak bersua? Pernah enggan menyapa karena berbeda?
+
+_"Bro, Budi ya?"_
+
+**"Iya, Siapa ya?"**
+
+_"Andre, Andre Setiawan"_
+
+**"Hah, yang mana ya"**
+
+_"Kita dulu main bareng waktu SD, kita dulu tetangga, selisih 32 rumah"_
+
+**"Hah?"**
+
+_"Lu pernah gigit gw sampai ada bekas luka ini"_
+
+**"OOOOOOOOOOooooooooooo"**
+
+Anekdot tadi menggambarkan dasar dari **sistem otentikasi** -- sebuah sistem pembuktikan identitas. Untuk membuktikan kebenaran klaim identitas Andre, Budi harus berulang kali bertanya hingga akhirnya Budi mendapatkan informasi yang cukup untuk membuktikan bahwa Andre adalah Andre yang dia kenal. Dalam dunia teknologi, inilah yang disebut sebagai Two Factor Authentication (2FA): sebuah metode pengecekkan yang memerlukan kecocokan dari dua faktor dari tiga buah faktor yang ada.
+
+## Tiga faktor tersebut adalah:
+
+- Sesuatu yang kamu tahu (_Knowledge factor_)
+- Sesuatu yang kamu punya (_Ownership factor_)
+- Sesuatu yang hanya ada di kamu (_Inherence factor_)
+
+Jika sebuah proses klaim identitas memenuhi dua dari tiga faktor diatas, maka syarat verifikasi terpenuhi. Sebagai contoh, mari kita ikuti alur login pada umumnya -- bayangkan kamu sedang mengakses Gmail.
+
+Pertama, kamu akan memasukkan username; ini adalah **klaim** identitasmu. Kemudian waktunya untuk memasukkan password. Ini adalah faktor pertama (_sesuatu yang kamu tahu_).
+
+Selanjutnya, untuk menjamin tingkat kepastian sesuai dengan ilustrasi diatas, harus ada salah satu dari dua faktor lain yang terpenuhi misalnya, SMS (_sesuatu yang kamu punya_), atau sidik jari / kornea mata (_sesuatu yang hanya ada di kamu_). Pemenuhan dua dari tiga faktor inilah yang disebut dengan Two Factor Authentication.
+
+Sekarang, mari kita coba telaah penggunaan 2FA yaitu SMS. Sebuah website akan mengirimkan kode khusus yang dibuat secara acak melalui SMS. Kode ini kemudian akan dikonfirmasikan di halaman web. Dengan kata lain, rangkaian proses ini ingin **mengonfirmasi** kepemilikan nomor telepon tersebut. (_sesuatu yang kamu punya_). Kode ini biasa disebut sebagai OTP atau **One Time Password**. Seperti namanya, OTP hanya dapat **digunakan sekali** dan memiliki waktu hidup yang singkat -- biasanya akan **hangus** dalam waktu tiga hingga lima menit. Inilah sebabnya OTP bersifat pribadi dan lantas harus dijaga kerahasiaannya.
+
+Jika diimplementasi dengan baik, Two Factor Authentication sangatlah ampuh dalam meminimalkan terjadinya peretasan pada suatu akun -- namun pada praktiknya, ada beberapa informasi yang perlu diperhatikan.
+
+Satu kritik keras datang dari penggunaan nomor telepon sebagai salah satu sarana pembuktian _sesuatu yang kamu punya_ tidaklah sempurna. Pertama, banyak pakar informatika berpendapat bahwa Kartu SIM sangatlah mudah untuk disalin atau disadap. Dengan sedikit rekayasa sosial (_social engineering_) atau dengan menggunakan alat penyalin Kartu Sim yang dijual bebas, penyerang dapat dengan mudah memperoleh salinan dari sebuah Kartu SIM -- dengan demikian setiap SMS yang dikirimkan menuju nomor tersebut akan masuk ke kedua perangkat.
+
+Kedua, karena limitasi teknologi, SMS dikirimkan dalam jaringan tanpa enkripsi, dengan kata lain, semua pesan singkat yang dikirim maupun diterima, dapat dibaca oleh pemerintah / penyedia layanan telekomunikasi; sehingga asumsi OTP SMS sebagai faktor _sesuatu yang kamu punya_ menjadi gagal karena banyak pihak dapat _mempunyai_ OTP ini.
+
+Ada beberapa metode yang lebih direkomendasikan penggiat teknologi seperti U2F, HTOP, TOTP. Mari kita bahas **TOTP** dahulu ya. Kepanjangan dari TOTP adalah **Time-based One Time Password**. Cara pemakaian TOTP cukup sederhana:
+
+1. Unduh aplikasi TOTP (google authenticator, authy, andOTP).
+1. Buka situs yang menyediakan 2FA dengan TOTP seperti Google, dan aktifkan
+   fitur 2FA.
+1. Scan QR TOTP menggunakan aplikasi yang sudah diunduh sebelumnya.
+1. OTP akan terlihat di layar tampilan aplikasi.
+
+Setelah mengaktifkan 2FA, proses login akan menjadi semakin diperpanjang (baca: semakin aman). Setelah memasukkan email dan password -- seperti pada lazimnya -- akan muncul kolom untuk memasukkan kode TOTP. Buka aplikasi TOTP pilihan kamu dan masukan. Selamat -- anda telah mengamankan akun Google anda. Cara ini dinilai lebih baik dari SMS karena kode OTP akan dibuat secara terus menerus dan luring (offline) sehingga meminimalkan adanya kebocoran informasi. Perlu dicatat, pengguna harus melakukan backup terhadap TOTP ini jika berganti telepon. Pastikan kamu simpan backup dengan baik. Bagaimana cara aplikasi ini bekerja? Apa itu U2F dan HOTP? Nanti kita coba pecahkan di artikel berikutnya (_**#NKCPDAB**_).
+
+Setelah kita paham proses 2FA, kita mengerti bahwa password saja kurang memadai, terlebih jika login dapat dilakukan tanpa password. Banyak aplikasi yang sayangnya melakukan praktik ini.
+
+Mari kita coba logout dari aplikasi Gojek dan mengamati alur proses loginnya. Setelah keluar dari akun, kita akan disapa dengan tampilan awal dengan tombol login di bagian bawah layar. Menekan tombol login akan membawa kita menuju halaman dengan satu kolom isian untuk nomor telepon. Setelah kita memasukkan nomor telepon dan menekan tombol submit, sebuah pesan singkat yang berisikan kode OTP akan tiba.
+
+Proses login kita diakhiri dengan pengisian kode OTP tersebut.
+
+Apakah ini aman? Tidak.
+
+Proses klaim identitas ini hanya memenuhi satu faktor yaitu _sesuatu yang kamu punya_ (nomor
+telepon), bahkan kita bisa berargumen bahwa fitur ini jauh lebih buruk dari kombinasi tradisional email dan password karena alasan yang telah kita bicarakan di atas (_Kartu SIM yang tersalin dsb_). Bagaimana dengan fitur PIN? Jika ditanyakan pada saat proses login, PIN dapat berfungsi sebagai salah satu faktor _sesuatu yang kamu tahu_. Sayangnya PIN tidak selalu ditanyakan pada setiap aksi yang user lakukan. Yang saya sayangkan pula, proses mengatur ulang PIN dilakukan hanya dengan melakukan proses SMS OTP.
+
+Mengapa pola otentikasi ini marak terjadi di Indonesia? Pertama, literasi dari penggunaan email sangatlah rendah. Lain dari pada itu, banyak dari kita yang selalu lupa akan password. Ada lagi permasalahan dimana kita menggunakan password yang sama untuk semua akun-akun kita.
+
+Dengan kata lain, penggunaan OTP melalui SMS adalah sebuah jalan pintas. Memang nomor telepon dan SMS adalah dua hal yang mudah dimengerti dan umum digunakan. Namun, seperti yang sudah kita bahas, metode verifikasi melalui SMS dan OTP tidaklah 100% efektif.
+
+Jadi apa yang dapat kita lakukan untuk melindungi akun kita?
+
+1. Kita harus mengangkat isu ini dan mendesak para penyedia aplikasi untuk menyediakan fitur yang memperbolehkan user untuk menambah faktor otentikasi seperti otentikasi tradisional email dan password ataupun TOTP, HTOP dan U2F.
+2. Segera aktifkan 2FA, jika mungkin jangan gunakan SMS / nomor telepon, dan beralih menuju HTOP, TOTP atau U2F.
+3. Gunakan _password manager_ seperti LastPass, Bitwarden, 1 Password untuk mengelola semua password kalian.
+4. Jangan gunakan password lebih dari sekali; gunakan _password manager_ untuk membuat password acak (_random_) dan unik untuk setiap akun.
+
+Akhir kata, saya berterima kasih pada [@coffeegulaaren](https://twitter.com/coffeegulaaren), [@tyohan](https://twitter.com/tyohan), dan [@joshuabezaleel](https://twitter.com/joshuabezaleel) yang telah membantu menyunting tulisan ini. Semoga saya semakin rajin menuliskan artikel.
+
+Seperti biasa, silahkan cuitkan komentar, kritik serta saran di [@tibudiyanto](https://twitter.com/tibudiyanto) ✌️.
